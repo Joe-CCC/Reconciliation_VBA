@@ -1,0 +1,72 @@
+Sub Calc()
+Dim Dest, Inp As Range
+Dim V As Currency
+Dim b, c, d, e, f, g, h, i As Byte
+Dim Var, A As Long
+
+Range("K:K", "ZZ:ZZ").Clear
+Var = 20
+A = 1
+
+
+Set Dest = Application.InputBox(Prompt:="select destination num", Title:="select", Type:=8)
+Set Inp = Application.InputBox(Prompt:="select potential num", Title:="select", Type:=8)
+Dest.Offset(0, 1).Value = "Selected"
+V = Application.Sum(Dest)
+Range("k1").Value = V
+
+'One Trans
+For b = 1 To Inp.Count
+  If Abs(Inp(b) + V) < Var Then
+    Inp(b).Offset(0, A) = Abs(Inp(b) + V)
+    A = A + 1
+  End If
+Next b
+
+
+
+'2 Trans
+For b = 1 To Inp.Count - 1
+    For c = b + 1 To Inp.Count
+       If Abs(Inp(b) + Inp(c) + V) < Var Then
+         Inp(b).Offset(0, A) = Abs(Inp(b) + Inp(c) + V)
+         Inp(c).Offset(0, A) = Abs(Inp(b) + Inp(c) + V)
+         A = A + 1
+       End If
+    Next c
+Next b
+
+'3 Trans
+
+For b = 1 To Inp.Count - 1
+    For c = b + 1 To Inp.Count
+       For d = c + 1 To Inp.Count
+          If Abs(Inp(b) + Inp(c) + Inp(d) + V) < Var Then
+            Inp(b).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + V)
+            Inp(c).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + V)
+            Inp(d).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + V)
+            A = A + 1
+          End If
+       Next d
+    Next c
+Next b
+
+'4 Trans
+
+For b = 1 To Inp.Count - 1
+    For c = b + 1 To Inp.Count
+       For d = c + 1 To Inp.Count
+          For e = d + 1 To Inp.Count
+             If Abs(Inp(b) + Inp(c) + Inp(d) + Inp(e) + V) < Var Then
+               Inp(b).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + Inp(e) + V)
+               Inp(c).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + Inp(e) + V)
+               Inp(d).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + Inp(e) + V)
+               Inp(e).Offset(0, A) = Abs(Inp(b) + Inp(c) + Inp(d) + Inp(e) + V)
+               A = A + 1
+             End If
+          Next e
+       Next d
+    Next c
+Next b
+
+End Sub
